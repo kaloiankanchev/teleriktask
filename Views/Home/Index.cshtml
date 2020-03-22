@@ -1,0 +1,74 @@
+﻿@using TelerikThomas.Models
+
+    
+
+
+
+@(Html.Kendo().Grid<Person>
+            ()
+            .Name("#Grid")
+            .Selectable()
+            .Columns(columns =>
+            {
+
+            columns.Select().Width(50);
+            //  columns.Bound(c => c.EmployeeID);
+            columns.Bound(c => c.FirstName).Width("200");
+            columns.Bound(c => c.LastName).Width("200");
+            columns.Bound(c => c.Phone).Width("200");
+            columns.Command(command =>
+            {
+            command.Edit().CancelText("Reject").UpdateText("Update").Text("Edit");
+            command.Destroy().Text("Delete");
+
+            }).Width(350);
+                 
+            })
+            .Selectable(selectable => selectable
+            .Mode(GridSelectionMode.Multiple)).PersistSelection(true)
+
+            .ToolBar(tools =>
+            {
+            tools.Create().Text("Add item");
+            })
+            .DataSource(dataSource => dataSource
+            .Ajax()
+            .Model(model =>
+            {
+            model.Id(emp => emp.Id);
+            model.Field(emp => emp.FirstName).Editable(true);
+            model.Field(emp => emp.LastName).Editable(true);
+            model.Field(emp => emp.Phone).Editable(true);
+
+            }
+            )
+
+            .Read(read => read.Action("Get", "Grid"))
+            .Update(update => update.Action("Update", "Grid"))
+            .Create(create => create.Action("Create", "Grid"))
+            .Destroy(destroy => destroy.Action("Delete", "Grid"))
+
+            )
+            .ToolBar(toolbar => toolbar.Save().SaveText("Save Changes").CancelText("Abort"))
+            .Editable(x => x.DisplayDeleteConfirmation(false))
+            // Set grid editable.
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+           
+
+
+
+            // Set grid pagable.
+            .Pageable(pageable =>
+            {
+            pageable.Refresh(true);
+            pageable.PageSizes(true);
+                pageable.Messages(items => items.Empty("No records found"));
+            pageable.Messages(items => items.Display("{0} - {1} of {2} records"));
+            pageable.Messages(items => items.ItemsPerPage("records per page"));
+
+
+            pageable.PageSizes(new int[] { 10, 25, 100 });
+            })
+
+            )
+
