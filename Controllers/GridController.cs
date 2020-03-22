@@ -91,7 +91,7 @@ namespace TelerikThomas.Controllers
                 Person customerToDelete = _context.Customers.Find(customer.Id);
                 if (customerToDelete == null)
                 {
-                    return Json("Employee Not Found");
+                    return Json("Customer Not Found");
                 }
 
                 _context.Customers.Remove(customerToDelete);
