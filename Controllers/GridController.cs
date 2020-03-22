@@ -84,17 +84,17 @@ namespace TelerikThomas.Controllers
         }
 
 
-        public ActionResult Delete([DataSourceRequest]DataSourceRequest request, Person emp)
+        public ActionResult Delete([DataSourceRequest]DataSourceRequest request, Person customer)
         {
             try
             {
-                Person employee = _context.Customers.Find(emp.Id);
-                if (employee == null)
+                Person customerToDelete = _context.Customers.Find(customer.Id);
+                if (customerToDelete == null)
                 {
                     return Json("Employee Not Found");
                 }
 
-                _context.Customers.Remove(employee);
+                _context.Customers.Remove(customerToDelete);
                 _context.SaveChanges();
                 return Json(_context.Customers.ToList());
             }
